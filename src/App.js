@@ -6,10 +6,11 @@ import "./App.css";
 class App extends Component {
   state = {
     counters: [
-      { id: 1, value: 0 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 }
+      { id: 1, value: 0, isSelected: false },
+      { id: 2, value: 0, isSelected: false },
+      { id: 3, value: 0, isSelected: false },
+      { id: 4, value: 0, isSelected: false },
+      { id: 5, value: 0, isSelected: false }
     ]
   };
 
@@ -21,10 +22,13 @@ class App extends Component {
     this.handleIncrement = this.handleIncrement.bind(this);
     this.handleAddCounter = this.handleAddCounter.bind(this);
     this.handleDecrement = this.handleDecrement.bind(this);
+    this.selectAll = this.selectAll.bind(this);
+    this.unSelectAll = this.unSelectAll.bind(this);
+    this.selectCounter = this.selectCounter.bind(this);
   }
 
   handleDelete(counterId) {
-    const counters = this.state.counters.filter(c => c.id !== counterId);
+    const counters = this.state.counters.filter(c => c.isSelected === false);
     this.setState({ counters });
   }
 
@@ -56,10 +60,22 @@ class App extends Component {
 
   handleAddCounter() {
     const counters = [...this.state.counters];
-    const lastIndex = counters.length - 1;
-    const lastCounter = counters[lastIndex];
-    const indexPosToAddCounter = lastIndex + 1;
-    counters[indexPosToAddCounter] = { id: lastCounter.id + 1, value: 0 };
+    if (counters.length > 0) {
+      const lastIndex = counters.length - 1;
+      const lastCounter = counters[lastIndex];
+      const indexPosToAddCounter = lastIndex + 1;
+      counters[indexPosToAddCounter] = {
+        id: lastCounter.id + 1,
+        value: 0,
+        isSelected: false
+      };
+    } else {
+      counters[0] = {
+        id: 0,
+        value: 0,
+        isSelected: false
+      };
+    }
     this.setState({ counters });
   }
 
@@ -70,6 +86,45 @@ class App extends Component {
       count = count + value;
     }
     return count;
+  }
+
+  selectAll() {
+    const counters = [...this.state.counters];
+    for (var i = 0, len = counters.length; i < len; i++) {
+      counters[i] = {
+        id: counters[i].id,
+        value: counters[i].value,
+        isSelected: true
+      };
+    }
+    this.setState({ counters });
+  }
+
+  unSelectAll() {
+    const counters = [...this.state.counters];
+    for (var i = 0, len = counters.length; i < len; i++) {
+      counters[i] = {
+        id: counters[i].id,
+        value: counters[i].value,
+        isSelected: false
+      };
+    }
+    this.setState({ counters });
+  }
+
+  selectCounter(counterId) {
+    const counters = [...this.state.counters];
+    for (var i = 0, len = counters.length; i < len; i++) {
+      counters[i] = {
+        id: counters[i].id,
+        value: counters[i].value,
+        isSelected: counters[i].isSelected
+      };
+      if (counterId === counters[i].id) {
+        counters[i].isSelected = !counters[i].isSelected;
+      }
+    }
+    this.setState({ counters });
   }
 
   render() {
@@ -87,6 +142,9 @@ class App extends Component {
             onDelete={this.handleDelete}
             onAddCounter={this.handleAddCounter}
             onDecrement={this.handleDecrement}
+            onSelectAll={this.selectAll}
+            onUnselectAll={this.unSelectAll}
+            onSelectCounter={this.selectCounter}
           />
         </main>
       </React.Fragment>

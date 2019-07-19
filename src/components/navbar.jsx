@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 
 //Stateless Function Component
 //Shortcut to create this function is sfc
 function NavBar({ totalCounters, totalCounts }) {
   return (
     <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand">
         Items in Cart:
         <span className="badge badge-pill badge-secondary m-1">
           {totalCounters}

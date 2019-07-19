@@ -1,0 +1,5 @@
+.fixwidth {
+  width: 5%;
+  text-align: center;
+  overflow: auto;
+}

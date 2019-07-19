@@ -9,7 +9,10 @@ class Counters extends Component {
       onDelete,
       onIncrement,
       onAddCounter,
-      onDecrement
+      onDecrement,
+      onSelectAll,
+      onUnselectAll,
+      onSelectCounter
     } = this.props;
     return (
       <React.Fragment>
@@ -19,13 +22,25 @@ class Counters extends Component {
         <button className="btn btn-primary btn-sm m-2" onClick={onAddCounter}>
           Add Counter
         </button>
+        <button className="btn btn-danger btn-sm m-2" onClick={onDelete}>
+          Delete
+        </button>
+        <br />
+        <button className="btn btn-primary btn-sm m-2" onClick={onSelectAll}>
+          Select All
+        </button>
+        <button className="btn btn-primary btn-sm m-2" onClick={onUnselectAll}>
+          Unselect All
+        </button>
         {counters.map(counter => (
           <Counter
             key={counter.id}
+            isSelected={counter.isSelected}
             onDelete={onDelete}
             onIncrement={onIncrement}
             onDecrement={onDecrement}
             counter={counter}
+            onSelectCounter={onSelectCounter}
           />
         ))}
       </React.Fragment>
